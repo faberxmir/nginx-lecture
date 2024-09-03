@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nginx Practical Task 2</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="task">
+            <h1>Task 2: Creating and Enabling New Sites on Different Ports</h1>
+
+            <h2>1. Create a Directory for the New Site</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo mkdir -p /var/www/port8080site/html</pre>
+            <pre>sudo chmod -R 755 /var/www/port8080site</pre>
+            <p><strong>Explanation:</strong> This step sets up a directory where the site’s content will reside. Setting the appropriate permissions ensures that the web server can serve the content properly.</p>
+
+            <h2>2. Create an index.html File for the New Site</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo nano /var/www/port8080site/html/index.html</pre>
+            <p><strong>Content Example:</strong></p>
+            <pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Welcome to Port 8080 Site!&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Success! You are viewing the site on port 8080!&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+            </pre>
+            <p><strong>Explanation:</strong> This file serves as the landing page for the new site. Students can use this to verify that Nginx is correctly serving the site.</p>
+
+            <h2>3. Create a New Server Block Configuration File for the Site</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo nano /etc/nginx/sites-available/port8080site</pre>
+            <p><strong>Configuration Example:</strong></p>
+            <pre>server {
+    listen 8080;
+    server_name localhost;
+
+    root /var/www/port8080site/html;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+            </pre>
+            <p><strong>Explanation:</strong> This configuration tells Nginx to listen on port 8080 and serve content from the /var/www/port8080site/html directory. The server_name directive is set to localhost for local testing.</p>
+
+            <h2>4. Enable the New Site by Creating a Symbolic Link</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo ln -s /etc/nginx/sites-available/port8080site /etc/nginx/sites-enabled/</pre>
+            <p><strong>Explanation:</strong> Enabling the site by creating a symbolic link in sites-enabled allows Nginx to serve this configuration. The role of the sites-available and sites-enabled directories in managing multiple sites should be explained.</p>
+
+            <h2>5. Test the Nginx Configuration</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo nginx -t</pre>
+            <p><strong>Explanation:</strong> Before applying changes, it’s crucial to ensure the configuration syntax is correct. This command helps catch errors that could prevent Nginx from reloading properly.</p>
+
+            <h2>6. Reload Nginx to Apply the Configuration</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo systemctl reload nginx</pre>
+            <p><strong>Explanation:</strong> Reloading Nginx will apply the new configuration, making the site available on port 8080 without disrupting existing connections.</p>
+
+            <h2>7. Test the New Site</h2>
+            <p><strong>Command:</strong> Open a web browser or use curl to access the site:</p>
+            <pre>curl http://localhost:8080</pre>
+            <p><strong>Explanation:</strong> Visiting http://localhost:8080 should display the index.html content. Discuss how different ports can be used to run multiple sites on the same server and the implications of using non-standard ports.</p>
+
+            <h2>8. Disable the Site if Needed</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo unlink /etc/nginx/sites-enabled/port8080site</pre>
+            <pre>sudo systemctl reload nginx</pre>
+            <p><strong>Explanation:</strong> This demonstrates how to disable a site by removing the symbolic link, making it easier to manage which sites are active.</p>
+        </div>
+
+        <div class="navigation">
+            <a href="nginx_task1.html">Previous</a>
+            <a href="nginx_task3.html">Next</a>
+        </div>
+    </div>
+</body>
+</html>

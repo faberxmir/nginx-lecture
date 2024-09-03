@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nginx Practical Task 1</title>
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="task">
+            <h1>Task 1: Controlling Nginx with systemctl</h1>
+
+            <h2>1. Check the status of Nginx</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo systemctl status nginx</pre>
+            <p><strong>Explanation:</strong> This command shows whether Nginx is currently running, its process ID, and some recent log entries. Observe the output and understand what it means when Nginx is active, inactive, or failed.</p>
+
+            <h2>2. Start Nginx</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo systemctl start nginx</pre>
+            <p><strong>Explanation:</strong> This command will start Nginx if it isn’t running. It is typically used after a server reboot or after Nginx has been stopped.</p>
+
+            <h2>3. Stop Nginx</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo systemctl stop nginx</pre>
+            <p><strong>Explanation:</strong> This command stops the Nginx service. It might be necessary before making major configuration changes or when troubleshooting.</p>
+
+            <h2>4. Restart Nginx</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo systemctl restart nginx</pre>
+            <p><strong>Explanation:</strong> The restart command stops and then starts Nginx. It's useful after configuration changes that require a full service reload. Compare this with the reload command (discussed next).</p>
+
+            <h2>5. Reload Nginx</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo systemctl reload nginx</pre>
+            <p><strong>Explanation:</strong> Reloading Nginx reloads the configuration without stopping the service, which means ongoing connections are not interrupted. It is crucial to reload rather than restart when making configuration changes that don't require stopping Nginx.</p>
+
+            <h2>6. Enable Nginx to start on boot</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo systemctl enable nginx</pre>
+            <p><strong>Explanation:</strong> This ensures that Nginx starts automatically whenever the server reboots. The importance of this setting for a web server that needs to be highly available should be noted.</p>
+
+            <h2>7. Disable Nginx from starting on boot</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo systemctl disable nginx</pre>
+            <p><strong>Explanation:</strong> Disabling auto-start might be useful in a development environment where Nginx should only run when explicitly started by the user.</p>
+        </div>
+
+        <div class="navigation">
+            <a class='disabled' href="#">Previous</a>
+            <a href="nginx_task2.html">Next</a>
+        </div>
+    </div>
+</body>
+</html>
