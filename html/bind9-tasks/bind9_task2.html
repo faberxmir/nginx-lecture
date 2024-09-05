@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>BIND9 DNS Task 2</title>
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="task">
+            <h1>Task 2: Creating Forward and Reverse DNS Zones</h1>
+
+            <h2>1. Create a Forward Zone</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo nano /etc/bind/named.conf.local</pre>
+            <p>Add the following configuration for the forward zone:</p>
+            <pre>
+zone "example.com" {
+    type master;
+    file "/etc/bind/zones/db.example.com";
+};
+            </pre>
+            <p><strong>Explanation:</strong> This tells BIND9 that it will be authoritative for the zone "example.com". The <code>file</code> directive points to the zone file, where DNS records for this zone will be stored.</p>
+
+            <h2>2. Create the Forward Zone File</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo mkdir /etc/bind/zones</pre>
+            <pre>sudo nano /etc/bind/zones/db.example.com</pre>
+            <p>Use the following template for the zone file:</p>
+            <pre>
+\$TTL    604800
+@       IN      SOA     ns1.example.com. admin.example.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      ns1.example.com.
+@       IN      A       192.168.1.10
+ns1     IN      A       192.168.1.10
+www     IN      A       192.168.1.11
+            </pre>
+            <p><strong>Explanation:</strong> This file defines DNS records for the "example.com" domain, including A records for the main domain and the <code>www</code> subdomain.</p>
+
+            <h2>3. Create a Reverse DNS Zone</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo nano /etc/bind/named.conf.local</pre>
+            <p>Add the following reverse zone configuration:</p>
+            <pre>
+zone "1.168.192.in-addr.arpa" {
+    type master;
+    file "/etc/bind/zones/db.192.168.1";
+};
+            </pre>
+
+            <h2>4. Create the Reverse Zone File</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo nano /etc/bind/zones/db.192.168.1</pre>
+            <p>Use the following template for the reverse zone file:</p>
+            <pre>
+\$TTL    604800
+@       IN      SOA     ns1.example.com. admin.example.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      ns1.example.com.
+10      IN      PTR     example.com.
+11      IN      PTR     www.example.com.
+            </pre>
+            <p><strong>Explanation:</strong> The reverse zone resolves IP addresses back to domain names. This example provides PTR records that map IP addresses to hostnames.</p>
+
+        </div>
+
+        <div class="navigation">
+            <a href="bind9_task1.html">Previous</a>
+            <a href="bind9_task3.html">Next</a>
+        </div>
+    </div>
+</body>
+</html>

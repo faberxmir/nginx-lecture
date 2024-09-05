@@ -1,0 +1,58 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIND9 DNS Task 1</title>
+    <link rel="stylesheet" href="../../css/main.css">
+</head>
+<body>
+    <div class="container">
+        <div class="task">
+            <h1>Task 1: Installing and Setting Up BIND9</h1>
+
+            <h2>1. Install BIND9</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo apt update</pre>
+            <pre>sudo apt install bind9 bind9utils bind9-doc</pre>
+            <p><strong>Explanation:</strong> This command installs BIND9 and its utilities on your Ubuntu server. BIND9 is a widely-used DNS software, and the utilities will help you manage and troubleshoot DNS issues.</p>
+
+            <h2>2. Start and Enable BIND9</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo systemctl start bind9</pre>
+            <pre>sudo systemctl enable bind9</pre>
+            <p><strong>Explanation:</strong> This will start the BIND9 service and ensure that it starts automatically when the system reboots. Managing BIND9 through systemctl is similar to controlling other services like Nginx.</p>
+
+            <h2>3. Check BIND9 Status</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo systemctl status bind9</pre>
+            <p><strong>Explanation:</strong> Checking the status of the BIND9 service ensures it is running correctly and shows logs that could be helpful if there are any issues.</p>
+
+            <h2>4. Configure BIND9 to Listen on the Network</h2>
+            <p><strong>Command:</strong></p>
+            <pre>sudo nano /etc/bind/named.conf.options</pre>
+            <p>Add the following configuration under <code>options</code>:</p>
+            <pre>
+options {
+    directory "/var/cache/bind";
+
+    recursion yes;
+    allow-query { any; };
+    forwarders {
+        8.8.8.8;  // Google Public DNS
+        8.8.4.4;  // Google Public DNS
+    };
+};
+            </pre>
+            <p><strong>Explanation:</strong> This configuration allows the BIND9 server to forward DNS queries it cannot resolve to Google's public DNS. It also enables recursion, allowing your DNS server to resolve queries for clients.</p>
+
+        </div>
+
+        <div class="navigation">
+            <a class="disabled" href="#">Previous</a>
+            <a href="./bind9_task2.html">Next</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -67,3 +67,8 @@ pre {
 .navigation a:hover {
     background-color: #0056b3;
 }
+
+.navigation a.disabled {
+    background-color: #333;
+    text-decoration: line-through;
+}
